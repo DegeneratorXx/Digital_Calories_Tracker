@@ -6,18 +6,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Activity {
+public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int caloriesPerMinute;
 
-    public Activity() {}
+    public Exercise() {}
 
-    public Activity(String name, int caloriesPerMinute) {
+    public Exercise(String name) {
         this.name = name;
-        this.caloriesPerMinute = caloriesPerMinute;
     }
 
     public Long getId() { return id; }
@@ -25,7 +23,4 @@ public class Activity {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-
-    public int getCaloriesPerMinute() { return caloriesPerMinute; }
-    public void setCaloriesPerMinute(int caloriesPerMinute) { this.caloriesPerMinute = caloriesPerMinute; }
 }

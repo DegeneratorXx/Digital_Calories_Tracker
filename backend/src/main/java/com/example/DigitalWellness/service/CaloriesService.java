@@ -2,82 +2,73 @@ package com.example.DigitalWellness.service;
 
 import com.example.DigitalWellness.model.Activity;
 import com.example.DigitalWellness.model.UsageEntry;
+import com.example.DigitalWellness.model.WorkoutSet;
+import com.example.DigitalWellness.repository.ActivityRepository;
+import com.example.DigitalWellness.repository.UsageEntryRepository;
+import com.example.DigitalWellness.repository.WorkoutSetRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CaloriesService {
 
-    // Predefined activities stored in a Hashmap
-    private final Map<String, Activity> activityMap;
-    
-    // In-memory list to store all usage entries
-    private final List<UsageEntry> usageEntries;
-    
-    // Running total of digital calories
-    private int totalCalories;
+    private final ActivityRepository activityRepository;
+    private final UsageEntryRepository usageEntryRepository;
+    private final WorkoutSetRepository workoutSetRepository;
 
-    public CaloriesService() {
-        this.activityMap = new HashMap<>();
-        this.usageEntries = new ArrayList<>();
-        this.totalCalories = 0;
-
-        // Initialize predefined activities according to requirements
-        activityMap.put("Instagram", new Activity("Instagram", 5));
-        activityMap.put("YouTube", new Activity("YouTube", 4));
-        activityMap.put("Study", new Activity("Study", 2));
+    public CaloriesService(ActivityRepository activityRepository,
+            UsageEntryRepository usageEntryRepository,
+            WorkoutSetRepository workoutSetRepository) {
+        this.activityRepository = activityRepository;
+        this.usageEntryRepository = usageEntryRepository;
+        this.workoutSetRepository = workoutSetRepository;
     }
 
-    /**
-     * Retrieve all predefined activities.
-     */
-    public List<Activity> getActivities() {
-        return new ArrayList<>(activityMap.values());
-    }
-
-    /**
-     * Add a usage entry and update running total.
-     * Calculated calories: minutes * caloriesPerMinute
-     */
-    public int addUsageEntry(UsageEntry entry) {
-        usageEntries.add(entry);
-        int caloriesForEntry = 0;
-        
-        // Find the activity and calculate its calorie impact
-        Activity activity = activityMap.get(entry.getActivityName());
-        if (activity != null) {
-            caloriesForEntry = entry.getMinutes() * activity.getCaloriesPerMinute();
-            totalCalories += caloriesForEntry;
+    @PostConstruct
+    public void init() {
+        if (activityRepository.count() == 0) {
+            activityRepository.save(new Activity("Instagram", 5));
+            activityRepository.save(new Activity("YouTube", 4));
+            activityRepository.save(new Activity("Study", 2));
         }
-        
-        return caloriesForEntry;
     }
 
-    /**
-     * Get the total digital calories consumed.
-     */
+    public List<Activity> getActivities() {
+        return activityRepository.findAll();
+    }
+
+    public int addUsageEntry(UsageEntry entry) {
+        usageEntryRepository.save(entry);
+
+        Optional<Activity> activityOpt = activityRepository.findByName(entry.getActivityName());
+        if (activityOpt.isPresent()) {
+            return entry.getMinutes() * activityOpt.get().getCaloriesPerMinute();
+        }
+        return 0;
+    }
+
     public int getTotalCalories() {
-        return totalCalories;
+        int consumed = usageEntryRepository.findAll().stream().mapToInt(entry -> {
+            Optional<Activity> activityOpt = activityRepository.findByName(entry.getActivityName());
+            return activityOpt.map(activity -> entry.getMinutes() * activity.getCaloriesPerMinute()).orElse(0);
+        }).sum();
+
+        int burned = workoutSetRepository.findAll().stream().mapToInt(WorkoutSet::getCaloriesBurned).sum();
+
+        return consumed - burned;
     }
 
-    /**
-     * Return a warning message if the total exceeds 100 calories.
-     */
     public String getWarningMessage() {
-        if (totalCalories > 100) {
+        if (getTotalCalories() > 100) {
             return "Warning: You have exceeded the 100 digital calories limit!";
         }
         return "";
     }
 
-    /**
-     * Get all recorded usage entries.
-     */
     public List<UsageEntry> getUsageEntries() {
-        return usageEntries;
+        return usageEntryRepository.findAll();
     }
 }
