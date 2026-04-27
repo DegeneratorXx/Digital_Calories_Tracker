@@ -18,7 +18,7 @@ function App() {
   const [reps, setReps] = useState("");
   const [workoutHistory, setWorkoutHistory] = useState([]);
 
-  const API_BASE = "http://localhost:8080/api";
+  const API_BASE = "http://localhost:8081/api";
 
   // Fetch initial data
   useEffect(() => {
@@ -160,13 +160,13 @@ function App() {
       </header>
 
       <div className="tabs">
-        <div 
+        <div
           className={`tab ${currentTab === 'digital' ? 'active' : ''}`}
           onClick={() => setCurrentTab('digital')}
         >
           Screen Time
         </div>
-        <div 
+        <div
           className={`tab ${currentTab === 'workout' ? 'active' : ''}`}
           onClick={() => setCurrentTab('workout')}
         >
@@ -191,9 +191,9 @@ function App() {
           <form onSubmit={handleDigitalSubmit}>
             <div className="form-group">
               <label htmlFor="activity">Select Digital Activity</label>
-              <select 
-                id="activity" 
-                value={selectedActivity} 
+              <select
+                id="activity"
+                value={selectedActivity}
                 onChange={(e) => setSelectedActivity(e.target.value)}
               >
                 {activities.map((act) => (
@@ -206,10 +206,10 @@ function App() {
 
             <div className="form-group">
               <label htmlFor="minutes">Minutes Spent</label>
-              <input 
-                type="number" 
-                id="minutes" 
-                value={minutes} 
+              <input
+                type="number"
+                id="minutes"
+                value={minutes}
                 onChange={(e) => setMinutes(e.target.value)}
                 placeholder="e.g. 30"
                 min="1"
@@ -241,9 +241,9 @@ function App() {
           <form onSubmit={handleWorkoutSubmit}>
             <div className="form-group">
               <label htmlFor="exercise">Select Exercise</label>
-              <select 
-                id="exercise" 
-                value={selectedExercise} 
+              <select
+                id="exercise"
+                value={selectedExercise}
                 onChange={(e) => setSelectedExercise(e.target.value)}
               >
                 {exercises.map((ex) => (
@@ -257,11 +257,11 @@ function App() {
             <div style={{ display: 'flex', gap: '15px' }}>
               <div className="form-group" style={{ flex: 1 }}>
                 <label htmlFor="weight">Weight (kg/lbs)</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   step="0.1"
-                  id="weight" 
-                  value={weight} 
+                  id="weight"
+                  value={weight}
                   onChange={(e) => setWeight(e.target.value)}
                   placeholder="e.g. 20"
                   min="0"
@@ -269,10 +269,10 @@ function App() {
               </div>
               <div className="form-group" style={{ flex: 1 }}>
                 <label htmlFor="reps">Reps</label>
-                <input 
-                  type="number" 
-                  id="reps" 
-                  value={reps} 
+                <input
+                  type="number"
+                  id="reps"
+                  value={reps}
                   onChange={(e) => setReps(e.target.value)}
                   placeholder="e.g. 10"
                   min="1"
@@ -294,8 +294,8 @@ function App() {
                       {entry.exerciseName}
                     </span>
                     <span className="history-minutes">
-                      {entry.weight > 0 ? `${entry.weight} W x ` : ''}{entry.reps} Reps 
-                      <strong style={{marginLeft: '10px', color: '#00cec9'}}>(-{entry.caloriesBurned} cal)</strong>
+                      {entry.weight > 0 ? `${entry.weight} W x ` : ''}{entry.reps} Reps
+                      <strong style={{ marginLeft: '10px', color: '#00cec9' }}>(-{entry.caloriesBurned} cal)</strong>
                     </span>
                   </li>
                 ))}

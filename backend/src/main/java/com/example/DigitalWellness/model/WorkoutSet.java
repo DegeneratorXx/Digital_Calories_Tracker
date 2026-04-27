@@ -15,33 +15,57 @@ public class WorkoutSet {
     private double weight;
     private int reps;
     private LocalDateTime timestamp;
-    private int caloriesBurned; // Calculated as roughly (weight * reps) / 10 as an arbitrary formula to balance digital calories
+    private int caloriesBurned; // Calculated as roughly (weight * reps) / 10 as an arbitrary formula to balance
+                                // digital calories
 
-    public WorkoutSet() {}
-
-    public WorkoutSet(String exerciseName, double weight, int reps, int caloriesBurned) {
-        this.exerciseName = exerciseName;
-        this.weight = weight;
-        this.reps = reps;
-        this.caloriesBurned = caloriesBurned;
-        this.timestamp = LocalDateTime.now();
+    public WorkoutSet() {
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getExerciseName() { return exerciseName; }
-    public void setExerciseName(String exerciseName) { this.exerciseName = exerciseName; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public double getWeight() { return weight; }
-    public void setWeight(double weight) { this.weight = weight; }
+    public String getExerciseName() {
+        return exerciseName;
+    }
 
-    public int getReps() { return reps; }
-    public void setReps(int reps) { this.reps = reps; }
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
 
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public double getWeight() {
+        return weight;
+    }
 
-    public int getCaloriesBurned() { return caloriesBurned; }
-    public void setCaloriesBurned(int caloriesBurned) { this.caloriesBurned = caloriesBurned; }
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getCaloriesBurned() {
+        return caloriesBurned;
+    }
+
+    public void setCaloriesBurned(int caloriesBurned) {
+        this.caloriesBurned = caloriesBurned;
+    }
 }
