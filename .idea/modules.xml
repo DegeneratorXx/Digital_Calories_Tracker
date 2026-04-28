@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/DigitalWellness.iml" filepath="$PROJECT_DIR$/.idea/DigitalWellness.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/DigitalWellness.iml" filepath="$PROJECT_DIR$/backend/DigitalWellness.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Digital_Calories_Tracker.iml" filepath="$PROJECT_DIR$/.idea/Digital_Calories_Tracker.iml" />
     </modules>
   </component>
 </project>
